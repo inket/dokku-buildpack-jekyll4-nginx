@@ -24,5 +24,19 @@ if [ -f configure ]; then
 fi
 
 # make
-echo "-----> Compiling with Make"
+echo "-----> Compiling"
 make 2>&1 | indent
+
+echo "-----> Installing"
+make install 2>&1 | indent
+
+cd $BUILD_DIR
+
+cat >>boot.sh <<EOF
+erb nginx/conf/nginx.conf.erb > nginx/conf/nginx.conf
+touch nginx/logs/access.log nginx/logs/error.log
+(tail -f -n 0 nginx/logs/*.log &)
+nginx/objs/nginx -p ./nginx
+EOF
+
+chmod +x boot.sh
