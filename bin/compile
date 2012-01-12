@@ -24,10 +24,25 @@ if [ -f configure ]; then
 fi
 
 # make
-echo "-----> Compiling"
+echo "-----> Compiling nginx"
 make 2>&1 | indent
 
-echo "-----> Installing"
+echo "-----> Installing nginx"
+make install 2>&1 | indent
+
+cd $BUILD_DIR/php
+
+# configure
+if [ -f configure ]; then
+  echo "-----> Configuring Nginx"
+  ./configure --prefix=/app/php 2>&1 | indent
+fi
+
+# make
+echo "-----> Compiling nginx"
+make 2>&1 | indent
+
+echo "-----> Installing nginx"
 make install 2>&1 | indent
 
 cd $BUILD_DIR
@@ -36,6 +51,11 @@ cat >>boot.sh <<EOF
 erb nginx/conf/nginx.conf.erb > nginx/conf/nginx.conf
 touch nginx/logs/access.log nginx/logs/error.log
 (tail -f -n 0 nginx/logs/*.log &)
+mkdir client_body_temp
+mkdir fastcgi_temp
+mkdir proxy_temp
+mkdir scgi_temp
+mkdir uwsgi_temp
 nginx/objs/nginx -p ./nginx
 EOF
 
