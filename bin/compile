@@ -29,7 +29,13 @@ if [ -f configure ]; then
 fi
 
 # configure, make, install PHP
-cd $BUILD_DIR/php
+
+cd $BUILD_DIR
+cp php.tar.bz2 $CACHE_DIR
+cd $CACHE_DIR
+bzip2 php.tar.bz2
+tar xvf php.tar
+cd php
 if [ -f configure ]; then
   echo "-----> Configuring PHP"
   ./configure --prefix=/app/php 2>&1 | indent
