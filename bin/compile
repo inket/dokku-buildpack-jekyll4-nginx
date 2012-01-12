@@ -15,7 +15,7 @@ function indent() {
   esac
 }
 
-cd $BUILD_DIR
+cd $BUILD_DIR/nginx
 
 # configure
 if [ -f configure ]; then
