@@ -27,37 +27,37 @@ if [ -f configure ]; then
   make install 2>&1 | indent
 fi
 
-# configure, make, install nginx
-mv $BUILD_DIR/nginx $CACHE_DIR
-cd $CACHE_DIR/nginx
-# cd $BUILD_DIR/nginx
-if [ -f configure ]; then
-  echo "-----> Configuring Nginx"
-  ./configure --prefix=${BUILD_DIR}/nginx --with-pcre=$BUILD_DIR/vendor/pcre/lib 2>&1 | indent
+# # configure, make, install nginx
+# mv $BUILD_DIR/nginx $CACHE_DIR
+# cd $CACHE_DIR/nginx
+# # cd $BUILD_DIR/nginx
+# if [ -f configure ]; then
+#   echo "-----> Configuring Nginx"
+#   ./configure --prefix=${BUILD_DIR}/nginx --with-pcre=$BUILD_DIR/vendor/pcre/lib 2>&1 | indent
 
-  echo "-----> Compiling"
-  make 2>&1 | indent
+#   echo "-----> Compiling"
+#   make 2>&1 | indent
 
-  echo "-----> Installing"
-  make install 2>&1 | indent
+#   echo "-----> Installing"
+#   make install 2>&1 | indent
 
-  cp $CACHE_DIR/nginx/conf/nginx.wordpress.conf.erb $BUILD_DIR/nginx/conf/nginx.conf.erb
-fi
+#   cp $CACHE_DIR/nginx/conf/nginx.wordpress.conf.erb $BUILD_DIR/nginx/conf/nginx.conf.erb
+# fi
 
-# configure, make, install PHP
-mv $BUILD_DIR/php $CACHE_DIR
-cd $CACHE_DIR/php
-# cd $BUILD_DIR/php
-if [ -f configure ]; then
-  echo "-----> Configuring PHP"
-  ./configure --prefix=${BUILD_DIR}/php 2>&1 | indent
+# # configure, make, install PHP
+# mv $BUILD_DIR/php $CACHE_DIR
+# cd $CACHE_DIR/php
+# # cd $BUILD_DIR/php
+# if [ -f configure ]; then
+#   echo "-----> Configuring PHP"
+#   ./configure --prefix=${BUILD_DIR}/php 2>&1 | indent
 
-  echo "-----> Compiling"
-  make 2>&1 | indent
+#   echo "-----> Compiling"
+#   make 2>&1 | indent
 
-  echo "-----> Installing"
-  make install 2>&1 | indent
-fi
+#   echo "-----> Installing"
+#   make install 2>&1 | indent
+# fi
 
 # setup web script
 cd $BUILD_DIR
