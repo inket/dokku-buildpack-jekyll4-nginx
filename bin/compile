@@ -31,8 +31,8 @@ if [ -f configure ]; then
 
   echo "-----> Installing"
   make install 2>&1 | indent
-
-  cp $BUILD_DIR/config/nginx.conf.erb $BUILD_DIR/vendor/nginx/conf/nginx.conf.erb
+                        /tmp/build_2dtfrnw1dniq8/vendor/nginx/conf/nginx.conf.erb
+  cp $BUILD_DIR/config/nginx.conf.erb /app/vendor/nginx/conf/nginx.conf.erb
 fi
 
 # PHP
