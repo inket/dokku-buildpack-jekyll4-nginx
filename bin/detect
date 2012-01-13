@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # bin/detect <build-dir>
 
-if [[ -f $1/nginx/Makefile  ||  -f $1/nginx/configure ]]; then
+if [[ -f $1/nginx/configure ]]; then
   echo "Nginx" && exit 0
 else
   echo "no" && exit 1
