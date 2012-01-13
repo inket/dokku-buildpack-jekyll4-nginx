@@ -30,12 +30,13 @@ fi
 
 # configure, make, install PHP
 
-cd $BUILD_DIR
-cp php.tar.bz2 $CACHE_DIR
-cd $CACHE_DIR
-bzip2 php.tar.bz2
-tar xvf php.tar
-cd php
+# cd $BUILD_DIR
+# cp php.tar.bz2 $CACHE_DIR
+# cd $CACHE_DIR
+# bzip2 php.tar.bz2
+# tar xvf php.tar
+# cd php
+cd $BUILD_DIR/php
 if [ -f configure ]; then
   echo "-----> Configuring PHP"
   ./configure --prefix=/app/php 2>&1 | indent
@@ -54,6 +55,6 @@ erb nginx/conf/nginx.conf.erb > nginx/conf/nginx.conf
 touch nginx/logs/access.log nginx/logs/error.log
 (tail -f -n 0 nginx/logs/*.log &)
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
-nginx/objs/nginx -p ./nginx
+nginx -p ./nginx
 EOF
 chmod +x boot.sh

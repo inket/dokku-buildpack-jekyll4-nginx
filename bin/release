@@ -3,6 +3,8 @@
 
 cat <<EOF
 ---
+config_vars:
+  PATH: /app/nginx/objs:/usr/local/bin:/usr/bin:/bin
 default_process_types:
   web: sh boot.sh
 EOF
