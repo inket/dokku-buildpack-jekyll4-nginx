@@ -23,7 +23,7 @@ cd $CACHE_DIR/nginx
 # cd $BUILD_DIR/nginx
 if [ -f configure ]; then
   echo "-----> Configuring Nginx"
-  ./configure --prefix=${BUILD_DIR}/nginx --without-http_rewrite_module --with-http_ssl_module --with-pcre 2>&1 | indent
+  ./configure --prefix=${BUILD_DIR}/nginx 2>&1 | indent
 
   echo "-----> Compiling"
   make 2>&1 | indent
