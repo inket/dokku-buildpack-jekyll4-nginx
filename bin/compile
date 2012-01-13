@@ -7,6 +7,8 @@ set -o pipefail
 BUILD_DIR=$1
 CACHE_DIR=$2
 
+mkdir -p $BUILD_DIR $CACHE_DIR
+
 function indent() {
   c='s/^/       /'
   case $(uname) in
