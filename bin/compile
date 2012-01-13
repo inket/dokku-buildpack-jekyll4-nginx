@@ -22,7 +22,9 @@ mv $BUILD_DIR/src $CACHE_DIR
 cd $CACHE_DIR/src/pcre
 if [ -f configure ]; then
   echo "-----> Configuring pcre"
-  ./configure --prefix=${BUILD_DIR}/vendor/pcre 2>&1 && make 2>&1 && make install 2>&1 | indent
+  ./configure --prefix=${BUILD_DIR}/vendor/pcre 2>&1  | indent
+  make 2>&1  | indent
+  make install 2>&1 | indent
 fi
 
 # configure, make, install nginx
@@ -31,7 +33,7 @@ cd $CACHE_DIR/nginx
 # cd $BUILD_DIR/nginx
 if [ -f configure ]; then
   echo "-----> Configuring Nginx"
-  ./configure --prefix=${BUILD_DIR}/nginx --with-pcre=$BUILD_DIR/vendor/pcre 2>&1 | indent
+  ./configure --prefix=${BUILD_DIR}/nginx --with-pcre=$BUILD_DIR/vendor/pcre/lib 2>&1 | indent
 
   echo "-----> Compiling"
   make 2>&1 | indent
