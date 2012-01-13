@@ -32,7 +32,7 @@ if [ -f configure ]; then
   echo "-----> Installing"
   make install 2>&1 | indent
 
-  cp $CACHE_DIR/src/nginx/conf/nginx.wordpress.conf.erb $BUILD_DIR/vendor/nginx/conf/nginx.conf.erb
+  cp $BUILD_DIR/config/nginx.wordpress.conf.erb $BUILD_DIR/vendor/nginx/conf/nginx.conf.erb
 fi
 
 # PHP
@@ -48,7 +48,7 @@ if [ -f configure ]; then
   echo "-----> Installing"
   make install 2>&1 | indent
 
-  # cp $CACHE_DIR/src/php/php.ini-production $BUILD_DIR/vendor/php/php.ini
+  # cp $BUILD_DIR/config/php.ini $BUILD_DIR/vendor/php/php.ini
 fi
 
 # setup web script
@@ -57,8 +57,8 @@ cat >>boot.sh <<EOF
 erb vendor/nginx/conf/nginx.conf.erb > vendor/nginx/conf/nginx.conf
 touch vendor/nginx/logs/access.log vendor/nginx/logs/error.log
 # mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
-(tail -f -n 0 vendor/nginx/logs/*.log &)
+# (tail -f -n 0 vendor/nginx/logs/*.log &)
 PHP_FCGI_CHILDREN=5 PHP_FCGI_MAX_REQUESTS=1000 php-cgi -b /tmp/php-fastcgi.socket &
-nginx -p ./vendor/nginx
+nginx -p vendor/nginx
 EOF
 chmod +x boot.sh
