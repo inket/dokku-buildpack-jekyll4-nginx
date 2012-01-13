@@ -7,7 +7,7 @@ set -o pipefail
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-mkdir -p $BUILD_DIR $CACHE_DIR
+mkdir -p $BUILD_DIR $CACHE_DIR $BUILD_DIR/vendor
 
 function indent() {
   c='s/^/       /'
@@ -16,6 +16,13 @@ function indent() {
     *)      sed -u "$c";;
   esac
 }
+
+mv $BUILD_DIR/pcre $CACHE_DIR
+cd $CACHE_DIR/pcre
+if [ -f configure ]; then
+  echo "-----> Configuring pcre"
+  ./configure --prefix=${BUILD_DIR}/vendor/pcre 2>&1 && make 2>&1 && make install 2>&1 | indent
+fi
 
 # configure, make, install nginx
 mv $BUILD_DIR/nginx $CACHE_DIR
