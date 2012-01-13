@@ -19,21 +19,12 @@ function indent() {
 
 mv $BUILD_DIR/src $CACHE_DIR
 
-# cd $CACHE_DIR/src/pcre
-# if [ -f configure ]; then
-#   echo "-----> Configuring pcre"
-#   ./configure --prefix=${BUILD_DIR}/vendor/pcre 2>&1  | indent
-#   make 2>&1  | indent
-#   make install 2>&1 | indent
-# fi
-
-# configure, make, install nginx
-mv $BUILD_DIR/nginx $CACHE_DIR
-cd $CACHE_DIR/nginx
-# cd $BUILD_DIR/nginx
+# Nginx
+cd $CACHE_DIR/src/nginx
+echo "-----> NGINX"
 if [ -f configure ]; then
-  echo "-----> Configuring Nginx"
-  ./configure --prefix=${BUILD_DIR}/nginx --with-pcre=$CACHE_DIR/src/pcre 2>&1 | indent
+  echo "-----> Configuring"
+  ./configure --prefix=${BUILD_DIR}/vendor/nginx --with-pcre=$CACHE_DIR/src/pcre 2>&1 | indent
 
   echo "-----> Compiling"
   make 2>&1 | indent
@@ -41,16 +32,15 @@ if [ -f configure ]; then
   echo "-----> Installing"
   make install 2>&1 | indent
 
-  cp $CACHE_DIR/nginx/conf/nginx.wordpress.conf.erb $BUILD_DIR/nginx/conf/nginx.conf.erb
+  cp $CACHE_DIR/src/nginx/conf/nginx.wordpress.conf.erb $BUILD_DIR/vendor/nginx/conf/nginx.conf.erb
 fi
 
-# configure, make, install PHP
-mv $BUILD_DIR/php $CACHE_DIR
-cd $CACHE_DIR/php
-# cd $BUILD_DIR/php
+# PHP
+cd $CACHE_DIR/src/php
+echo "-----> PHP"
 if [ -f configure ]; then
-  echo "-----> Configuring PHP"
-  ./configure --prefix=${BUILD_DIR}/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/php --with-openssl 2>&1 | indent
+  echo "-----> Configuring "
+  ./configure --prefix=${BUILD_DIR}/vendor/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=$BUILD_DIR/vendor/php --with-openssl 2>&1 | indent
 
   echo "-----> Compiling"
   make 2>&1 | indent
@@ -58,16 +48,16 @@ if [ -f configure ]; then
   echo "-----> Installing"
   make install 2>&1 | indent
 
-  # cp $CACHE_DIR/php/php.ini-production $BUILD_DIR/php/php.ini
+  # cp $CACHE_DIR/src/php/php.ini-production $BUILD_DIR/vendor/php/php.ini
 fi
 
 # setup web script
 cd $BUILD_DIR
 cat >>boot.sh <<EOF
-erb nginx/conf/nginx.conf.erb > nginx/conf/nginx.conf
-touch nginx/logs/access.log nginx/logs/error.log
-mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
-(tail -f -n 0 nginx/logs/*.log &)
+erb vendor/nginx/conf/nginx.conf.erb > vendor/nginx/conf/nginx.conf
+touch vendor/nginx/logs/access.log vendor/nginx/logs/error.log
+# mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
+(tail -f -n 0 vendor/nginx/logs/*.log &)
 PHP_FCGI_CHILDREN=5 PHP_FCGI_MAX_REQUESTS=1000 php-cgi -b /tmp/php-fastcgi.socket &
 nginx -p ./nginx
 EOF
