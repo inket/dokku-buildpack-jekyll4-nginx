@@ -17,8 +17,9 @@ function indent() {
   esac
 }
 
-mv $BUILD_DIR/pcre $CACHE_DIR
-cd $CACHE_DIR/pcre
+mv $BUILD_DIR/src $CACHE_DIR
+
+cd $CACHE_DIR/src/pcre
 if [ -f configure ]; then
   echo "-----> Configuring pcre"
   ./configure --prefix=${BUILD_DIR}/vendor/pcre 2>&1 && make 2>&1 && make install 2>&1 | indent
