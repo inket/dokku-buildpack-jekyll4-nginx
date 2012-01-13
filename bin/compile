@@ -24,14 +24,14 @@ cd $CACHE_DIR/src/nginx
 echo "-----> NGINX"
 if [ -f configure ]; then
   echo "-----> Configuring"
-  ./configure --prefix=/app/vendor/nginx --with-pcre=$CACHE_DIR/src/pcre 2>&1 | indent
+  ./configure --prefix=${BUILD_DIR}/vendor/nginx --with-pcre=$CACHE_DIR/src/pcre 2>&1 | indent
 
   echo "-----> Compiling"
   make 2>&1 | indent
 
   echo "-----> Installing"
   make install 2>&1 | indent
-  cp $BUILD_DIR/config/nginx.conf.erb /app/vendor/nginx/conf/nginx.conf.erb
+  cp $BUILD_DIR/config/nginx.conf.erb ${BUILD_DIR}/vendor/nginx/conf/nginx.conf.erb
 fi
 
 # PHP
@@ -39,7 +39,7 @@ cd $CACHE_DIR/src/php
 echo "-----> PHP"
 if [ -f configure ]; then
   echo "-----> Configuring "
-  ./configure --prefix=/app/vendor/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/vendor/php --with-openssl 2>&1 | indent
+  ./configure --prefix=${BUILD_DIR}/vendor/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/vendor/php --with-openssl 2>&1 | indent
 
   echo "-----> Compiling"
   make 2>&1 | indent
