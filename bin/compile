@@ -7,7 +7,7 @@ set -o pipefail
 BUILD_DIR=$1
 CACHE_DIR=$2
 
-mkdir -p $BUILD_DIR $CACHE_DIR $BUILD_DIR/vendor
+mkdir -p $BUILD_DIR $CACHE_DIR
 
 function indent() {
   c='s/^/       /'
@@ -57,6 +57,8 @@ if [ -f configure ]; then
 
   echo "-----> Installing"
   make install 2>&1 | indent
+
+  # cp $CACHE_DIR/php/php.ini-production $BUILD_DIR/php/php.ini
 fi
 
 # setup web script

@@ -3,6 +3,11 @@
 
 cat <<EOF
 ---
+
+addons:
+  - cleardb:ignite
+  - sendgrid:starter
+  - ssl:piggyback
 config_vars:
   PATH: /app/nginx/sbin:/app/php/bin:/usr/local/bin:/usr/bin:/bin
 default_process_types:
