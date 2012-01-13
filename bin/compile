@@ -32,7 +32,7 @@ if [ -f configure ]; then
   echo "-----> Installing"
   make install 2>&1 | indent
 
-  cp $BUILD_DIR/config/nginx.wordpress.conf.erb $BUILD_DIR/vendor/nginx/conf/nginx.conf.erb
+  cp $BUILD_DIR/config/nginx.conf.erb $BUILD_DIR/vendor/nginx/conf/nginx.conf.erb
 fi
 
 # PHP
