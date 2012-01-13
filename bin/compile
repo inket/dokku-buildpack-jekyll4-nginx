@@ -59,6 +59,6 @@ touch vendor/nginx/logs/access.log vendor/nginx/logs/error.log
 # mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
 (tail -f -n 0 vendor/nginx/logs/*.log &)
 PHP_FCGI_CHILDREN=5 PHP_FCGI_MAX_REQUESTS=1000 php-cgi -b /tmp/php-fastcgi.socket &
-nginx
+nginx -p ./vendor/nginx
 EOF
 chmod +x boot.sh
