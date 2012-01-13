@@ -24,7 +24,7 @@ cd $CACHE_DIR/src/nginx
 echo "-----> NGINX"
 if [ -f configure ]; then
   echo "-----> Configuring"
-  ./configure --prefix=${BUILD_DIR}/vendor/nginx --with-pcre=$CACHE_DIR/src/pcre 2>&1 | indent
+  ./configure --prefix=${HOME}/vendor/nginx --with-pcre=$CACHE_DIR/src/pcre 2>&1 | indent
 
   echo "-----> Compiling"
   make 2>&1 | indent
@@ -40,7 +40,7 @@ cd $CACHE_DIR/src/php
 echo "-----> PHP"
 if [ -f configure ]; then
   echo "-----> Configuring "
-  ./configure --prefix=${BUILD_DIR}/vendor/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=$BUILD_DIR/vendor/php --with-openssl 2>&1 | indent
+  ./configure --prefix=${HOME}/vendor/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=${HOME}/vendor/php --with-openssl 2>&1 | indent
 
   echo "-----> Compiling"
   make 2>&1 | indent
@@ -54,11 +54,11 @@ fi
 # setup web script
 cd $BUILD_DIR
 cat >>boot.sh <<EOF
-erb $HOME/vendor/nginx/conf/nginx.conf.erb > $HOME/vendor/nginx/conf/nginx.conf
-touch $HOME/vendor/nginx/logs/access.log $HOME/vendor/nginx/logs/error.log
+erb ${HOME}vendor/nginx/conf/nginx.conf.erb > ${HOME}/vendor/nginx/conf/nginx.conf
+touch ${HOME}/vendor/nginx/logs/access.log ${HOME}/vendor/nginx/logs/error.log
 # mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
-(tail -f -n 0 $HOME/vendor/nginx/logs/*.log &)
+(tail -f -n 0 ${HOME}/vendor/nginx/logs/*.log &)
 PHP_FCGI_CHILDREN=5 PHP_FCGI_MAX_REQUESTS=1000 php-cgi -b /tmp/php-fastcgi.socket &
-nginx -p $HOME/vendor/nginx
+nginx -p ${HOME}/vendor/nginx/
 EOF
 chmod +x boot.sh
