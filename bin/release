@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 # bin/release <build-dir>
 
-BUILD_DIR=$1
-
 cat <<EOF
 ---
 config_vars:
-  PATH: /app/nginx/sbin:/app/php/bin:/usr/local/bin:/usr/bin:/bin:$BUILD_DIR:${BUILD_DIR}
+  PATH: /app/nginx/sbin:/app/php/bin:/usr/local/bin:/usr/bin:/bin
 default_process_types:
   web: sh boot.sh
 EOF
