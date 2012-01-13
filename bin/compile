@@ -50,7 +50,7 @@ cd $CACHE_DIR/php
 # cd $BUILD_DIR/php
 if [ -f configure ]; then
   echo "-----> Configuring PHP"
-  ./configure --prefix=${BUILD_DIR}/php 2>&1 | indent
+  ./configure --prefix=${BUILD_DIR}/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/php --with-openssl 2>&1 | indent
 
   echo "-----> Compiling"
   make 2>&1 | indent
