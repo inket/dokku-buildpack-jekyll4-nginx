@@ -36,7 +36,9 @@ export GEM_HOME=$1/.gems
 export PATH=$1/.gems/bin:$PATH
 cd $1
 $1/.gems/bin/jekyll | indent
-$1/.gems/bin/sass sass/style.scss style.css | indent
+if [ -f sass/style.scss ] ; then
+  $1/.gems/bin/sass sass/style.scss style.css | indent
+fi
 
 mv $BUILD_DIR/src $CACHE_DIR
 
