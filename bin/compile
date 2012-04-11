@@ -41,6 +41,7 @@ cp "$VENDORED_NGINX/sbin/nginx" "$BUILD_DIR/bin/nginx"
 # build nginx config unless overridden by user
 if [ ! -f $BUILD_DIR/conf/nginx.conf ] ; then
   echo "-----> Using default nginx.conf"
+  mkdir -p $BUILD_DIR/conf
 	cp $LP_DIR/conf/nginx.conf $BUILD_DIR/conf/nginx.conf
 fi
 
