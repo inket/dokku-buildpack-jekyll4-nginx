@@ -17,6 +17,27 @@ function indent() {
   esac
 }
 
+echo "-----> Compiling Jekyll site"
+
+# Install Jekyll into hidden directory in app roote
+
+cat << EOF > ~/.gemrc
+gemhome: $1/.gems
+gempath:
+- $1/.gems
+EOF
+
+/usr/local/bin/gem install liquid -v 2.2.2 --no-rdoc --no-ri | indent
+/usr/local/bin/gem install jekyll redcarpet sass --no-rdoc --no-ri | indent
+
+# Run Jekyll
+echo "Running Jekyll" | indent
+export GEM_HOME=$1/.gems
+export PATH=$1/.gems/bin:$PATH
+cd $1
+$1/.gems/bin/jekyll | indent
+$1/.gems/bin/sass sass/style.scss style.css | indent
+
 mv $BUILD_DIR/src $CACHE_DIR
 
 # Nginx
@@ -34,22 +55,6 @@ if [ -f configure ]; then
   cp $BUILD_DIR/config/nginx.conf.erb ${BUILD_DIR}/vendor/nginx/conf/nginx.conf.erb
 fi
 
-# PHP
-cd $CACHE_DIR/src/php
-echo "-----> PHP"
-if [ -f configure ]; then
-  echo "-----> Configuring "
-  ./configure --prefix=${BUILD_DIR}/vendor/php --with-mysql --with-pdo-mysql --with-iconv --with-gd --with-curl=/usr/lib --with-config-file-path=/app/vendor/php --with-openssl 2>&1 | indent
-
-  echo "-----> Compiling"
-  make 2>&1 | indent
-
-  echo "-----> Installing"
-  make install 2>&1 | indent
-
-  # cp $BUILD_DIR/config/php.ini $BUILD_DIR/vendor/php/php.ini
-fi
-
 # setup web script
 cd $BUILD_DIR
 cat >>boot.sh <<EOF
@@ -57,7 +62,6 @@ erb ./vendor/nginx/conf/nginx.conf.erb > ./vendor/nginx/conf/nginx.conf
 touch ./vendor/nginx/logs/access.log ./vendor/nginx/logs/error.log
 mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
 (tail -f -n 0 ./vendor/nginx/logs/*.log &)
-PHP_FCGI_CHILDREN=5 PHP_FCGI_MAX_REQUESTS=1000 php-cgi -b /tmp/php-fastcgi.socket &
 nginx -p ./vendor/nginx
 EOF
 chmod +x boot.sh

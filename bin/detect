@@ -1,8 +1,9 @@
-#!/usr/bin/env bash
-# bin/detect <build-dir>
+#!/bin/sh
 
-if [[ -f $1/src/nginx/configure ]]; then
-  echo "Nginx" && exit 0
+# this pack is valid for apps with _config.yml in the root
+if [ -f $1/_config.yml ]; then
+  echo "Jekyll"
+  exit 0
 else
-  echo "no" && exit 1
+  exit 1
 fi
