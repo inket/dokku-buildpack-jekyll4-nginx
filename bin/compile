@@ -40,9 +40,9 @@ cp "$VENDORED_NGINX/sbin/nginx" "$BUILD_DIR/bin/nginx"
 
 # build nginx config unless overridden by user
 if [ ! -f $BUILD_DIR/conf/nginx.conf ] ; then
-  echo "-----> Using default nginx.conf"
+  echo "-----> Using default nginx.conf.erb"
   mkdir -p $BUILD_DIR/conf
-	cp $LP_DIR/conf/nginx.conf $BUILD_DIR/conf/nginx.conf
+	cp $LP_DIR/conf/nginx.conf.erb $BUILD_DIR/conf/nginx.conf.erb
 fi
 
 echo "-----> Compiling Jekyll site"
