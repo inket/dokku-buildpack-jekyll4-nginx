@@ -4,8 +4,20 @@
 set -e
 set -o pipefail
 
+# config
+NGINX_VERSION="1.0.14"
+S3_BUCKET="essh-heroku-buildpack-nginx"
+
+# parse and derive params
 BUILD_DIR=$1
 CACHE_DIR=$2
+LP_DIR=`cd $(dirname $0); cd ..; pwd`
+
+# s3 packages
+NGINX_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/nginx-${NGINX_VERSION}.tgz"
+
+# vendor directories
+VENDORED_NGINX=$(mktemp -d -t nginx.XXXXXX)
 
 mkdir -p $BUILD_DIR $CACHE_DIR
 
@@ -17,53 +29,54 @@ function indent() {
   esac
 }
 
+# download and upack packages
+echo "-----> Fetching nginx binaries"
+curl $NGINX_PACKAGE -s -o - | tar xzf - -C $VENDORED_NGINX
+
+# vendor nginx into the slug
+echo "-----> Vendoring nginx $NGINX_VERSION"
+mkdir -p "$BUILD_DIR/bin"
+cp "$VENDORED_NGINX/sbin/nginx" "$BUILD_DIR/bin/nginx"
+
+# build nginx config unless overridden by user
+if [ ! -f $BUILD_DIR/conf/nginx.conf ] ; then
+  echo "-----> Using default nginx.conf"
+	cp $LP_DIR/conf/nginx.conf $BUILD_DIR/conf/nginx.conf
+fi
+
 echo "-----> Compiling Jekyll site"
 
 # Install Jekyll into hidden directory in app roote
 
 cat << EOF > ~/.gemrc
-gemhome: $1/.gems
+gemhome: $BUILD_DIR/.gems
 gempath:
-- $1/.gems
+- $BUILD_DIR/.gems
 EOF
 
 /usr/local/bin/gem install liquid -v 2.2.2 --no-rdoc --no-ri | indent
 /usr/local/bin/gem install jekyll redcarpet sass --no-rdoc --no-ri | indent
 
+
 # Run Jekyll
 echo "Running Jekyll" | indent
-export GEM_HOME=$1/.gems
-export PATH=$1/.gems/bin:$PATH
-cd $1
-$1/.gems/bin/jekyll | indent
-if [ -f sass/style.scss ] ; then
-  $1/.gems/bin/sass sass/style.scss style.css | indent
-fi
-
-mv $BUILD_DIR/src $CACHE_DIR
-
-# Nginx
-cd $CACHE_DIR/src/nginx
-echo "-----> NGINX"
-if [ -f configure ]; then
-  echo "-----> Configuring"
-  ./configure --prefix=${BUILD_DIR}/vendor/nginx --with-pcre=$CACHE_DIR/src/pcre 2>&1 | indent
-
-  echo "-----> Compiling"
-  make 2>&1 | indent
-
-  echo "-----> Installing"
-  make install 2>&1 | indent
-  cp $BUILD_DIR/config/nginx.conf.erb ${BUILD_DIR}/vendor/nginx/conf/nginx.conf.erb
-fi
-
-# setup web script
+export GEM_HOME=$BUILD_DIR/.gems
+export PATH=$BUILD_DIR/.gems/bin:$PATH
 cd $BUILD_DIR
-cat >>boot.sh <<EOF
-erb ./vendor/nginx/conf/nginx.conf.erb > ./vendor/nginx/conf/nginx.conf
-touch ./vendor/nginx/logs/access.log ./vendor/nginx/logs/error.log
-mkdir -p client_body_temp fastcgi_temp proxy_temp scgi_temp uwsgi_temp
-(tail -f -n 0 ./vendor/nginx/logs/*.log &)
-nginx -p ./vendor/nginx
+$BUILD_DIR/.gems/bin/jekyll | indent
+if [ -f sass/style.scss ] ; then
+  $BUILD_DIR/.gems/bin/sass sass/style.scss style.css | indent
+fi
+
+
+
+# build a startup script
+cat <<EOF >"$BUILD_DIR/bin/start_nginx"
+#!/usr/bin/env bash
+erb conf/nginx.conf.erb > conf/nginx.conf
+mkdir -p logs
+touch logs/access.log logs/error.log
+(tail -qF -n 0 --pid=\$\$ logs/*.log &)
+exec bin/nginx -p .
 EOF
-chmod +x boot.sh
+chmod +x "$BUILD_DIR/bin/start_nginx"
