@@ -45,6 +45,14 @@ if [ ! -f $BUILD_DIR/conf/nginx.conf ] ; then
 	cp $LP_DIR/conf/nginx.conf.erb $BUILD_DIR/conf/nginx.conf.erb
 fi
 
+# build mime.types unless overridden by user
+if [ ! -f $BUILD_DIR/conf/mime.types ] ; then
+  echo "-----> Using default mime.types"
+  mkdir -p $BUILD_DIR/conf
+	cp $LP_DIR/conf/mime.types $BUILD_DIR/conf/mime.types
+fi
+
+
 echo "-----> Compiling Jekyll site"
 
 # Install Jekyll into hidden directory in app roote
