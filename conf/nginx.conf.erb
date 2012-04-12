@@ -1,7 +1,14 @@
-server {
-  listen <%= ENV["PORT"] %>;
-  daemon off;
+daemon off;
 
-  index index.html;
-  root /app/_site;
+events {
+  worker_connections 4096;
+}
+
+http {
+  server {
+    listen <%= ENV["PORT"] %>;
+
+    index index.html;
+    root /app/_site;
+  }
 }
