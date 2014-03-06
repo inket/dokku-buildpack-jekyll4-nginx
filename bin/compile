@@ -53,31 +53,6 @@ if [ ! -f $BUILD_DIR/conf/mime.types ] ; then
 fi
 
 
-echo "-----> Compiling Jekyll site"
-
-# Install Jekyll into hidden directory in app roote
-
-cat << EOF > ~/.gemrc
-gemhome: $BUILD_DIR/.gems
-gempath:
-- $BUILD_DIR/.gems
-EOF
-
-/usr/local/bin/gem install liquid -v 2.2.2 --no-rdoc --no-ri | indent
-/usr/local/bin/gem install jekyll redcarpet sass --no-rdoc --no-ri | indent
-
-
-# Run Jekyll
-echo "Running Jekyll" | indent
-export GEM_HOME=$BUILD_DIR/.gems
-export PATH=$BUILD_DIR/.gems/bin:$PATH
-cd $BUILD_DIR
-$BUILD_DIR/.gems/bin/jekyll | indent
-if [ -f sass/style.scss ] ; then
-  $BUILD_DIR/.gems/bin/sass sass/style.scss style.css | indent
-fi
-
-
 
 # build a startup script
 cat <<EOF >"$BUILD_DIR/bin/start_nginx"
