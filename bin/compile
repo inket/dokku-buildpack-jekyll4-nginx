@@ -61,7 +61,7 @@ gem install jekyll redcarpet sass --no-rdoc --no-ri | indent
 
 echo "-----> Building Jekyll site"
 cd $BUILD_DIR
-$BUILD_DIR/.gems/bin/jekyll | indent
+$BUILD_DIR/.gems/bin/jekyll build | indent
 if [ -f sass/style.scss ] ; then
   $BUILD_DIR/.gems/bin/sass sass/style.scss style.css | indent
 fi
