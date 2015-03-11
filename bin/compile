@@ -61,15 +61,14 @@ if [ ! -f $BUILD_DIR/.gems/bin/jekyll ]; then
     gem install liquid -v 2.2.2 --no-rdoc --no-ri | indent
     gem install jekyll redcarpet sass --no-rdoc --no-ri | indent
     gem install therubyracer --no-rdoc --no-ri | indent
-    gem install unicorn unicorn-rails --no-rdoc --no-ri | indent
-    gem install bundler --no-rdoc --no-ri | indent
+    gem install unicorn --no-rdoc --no-ri | indent
 fi
 
 echo "-----> Building Jekyll site"
 cd $BUILD_DIR
-bundle exec jekyll build | indent
+$BUILD_DIR/.gems/bin/jekyll build | indent
 if [ -f sass/style.scss ] ; then
-  bundle exec sass/style.scss style.css | indent
+  $BUILD_DIR/.gems/bin/sass sass/style.scss style.css | indent
 fi
 
 # build a startup script
