@@ -62,6 +62,7 @@ if [ ! -f $BUILD_DIR/.gems/bin/jekyll ]; then
     gem install jekyll redcarpet sass --no-rdoc --no-ri | indent
     gem install therubyracer --no-rdoc --no-ri | indent
     gem install unicorn --no-rdoc --no-ri | indent
+    gem install bundler --no-rdoc --no-ri | indent
 fi
 
 echo "-----> Building Jekyll site"
