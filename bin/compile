@@ -15,7 +15,7 @@ LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
 # s3 packages
 # NGINX_PACKAGE="http://${S3_BUCKET}.s3.amazonaws.com/nginx-${NGINX_VERSION}.tgz"
-NGINX_PACKAGE="https://s3.amazonaws.com/devmynd-github/heroku-nginx-1.6.0.tar.gz
+NGINX_PACKAGE="https://s3.amazonaws.com/devmynd-github/heroku-nginx-1.6.0.tar.gz"
 
 # vendor directories
 VENDORED_NGINX=$(mktemp -d -t nginx.XXXXXX)
