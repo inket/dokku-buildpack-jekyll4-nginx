@@ -5,7 +5,7 @@ set -e
 set -o pipefail
 
 # config
-NGINX_VERSION="1.0.14"
+NGINX_VERSION="1.6.0"
 S3_BUCKET="essh-heroku-buildpack-nginx"
 
 # parse and derive params
