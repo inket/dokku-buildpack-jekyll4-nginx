@@ -37,7 +37,7 @@ curl $NGINX_PACKAGE -s -o - | tar xzf - -C $VENDORED_NGINX
 # vendor nginx into the slug
 echo "-----> Vendoring nginx $NGINX_VERSION"
 mkdir -p "$BUILD_DIR/bin"
-cp "$VENDORED_NGINX/sbin/nginx" "$BUILD_DIR/bin/nginx"
+cp "$VENDORED_NGINX/nginx/sbin/nginx" "$BUILD_DIR/bin/nginx"
 
 # build nginx config unless overridden by user
 if [ ! -f $BUILD_DIR/conf/nginx.conf ] ; then
