@@ -60,10 +60,13 @@ if [ ! -f $BUILD_DIR/.gems/bin/jekyll ]; then
     echo "-----> Installing Jekyll"
     gem install liquid -v 2.2.2 --no-rdoc --no-ri | indent
     gem install jekyll redcarpet sass --no-rdoc --no-ri | indent
+    gem install bundler --no-rdoc --no-ri | indent
+
 fi
 
 echo "-----> Building Jekyll site"
 cd $BUILD_DIR
+$BUILD_DIR/.gems/bin/bundle install | indent
 $BUILD_DIR/.gems/bin/jekyll build | indent
 if [ -f sass/style.scss ] ; then
   $BUILD_DIR/.gems/bin/sass sass/style.scss style.css | indent
