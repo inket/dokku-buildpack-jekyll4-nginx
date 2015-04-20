@@ -1,3 +1,9 @@
+Updates
+================================
+
+Updated compile script to make it work as of dokku v0.3.16
+
+
 Dokku buildpack: Jekyll + Nginx
 ================================
 
