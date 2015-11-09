@@ -8,14 +8,14 @@ events {
 http {
   include mime.types;
   default_type application/octet-stream;
-  
+
   keepalive_timeout 65;
   gzip on;
-  
+
   # nginx could be running on any port behind Heroku's proxy, but
   # shouldn't redirect to that port
   port_in_redirect off;
-  
+
   server {
     listen <%= ENV["PORT"] %>;
 

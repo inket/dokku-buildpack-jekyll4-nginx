@@ -40,17 +40,17 @@ mkdir -p "$BUILD_DIR/bin"
 cp "$VENDORED_NGINX/nginx/sbin/nginx" "$BUILD_DIR/bin/nginx"
 
 # build nginx config unless overridden by user
-if [ ! -f $BUILD_DIR/conf/nginx.conf ] ; then
+if [ ! -f $BUILD_DIR/conf/nginx.conf ]; then
   echo "-----> Using default nginx.conf.erb"
   mkdir -p $BUILD_DIR/conf
-	cp $LP_DIR/conf/nginx.conf.erb $BUILD_DIR/conf/nginx.conf.erb
+  cp $LP_DIR/conf/nginx.conf.erb $BUILD_DIR/conf/nginx.conf.erb
 fi
 
 # build mime.types unless overridden by user
-if [ ! -f $BUILD_DIR/conf/mime.types ] ; then
+if [ ! -f $BUILD_DIR/conf/mime.types ]; then
   echo "-----> Using default mime.types"
   mkdir -p $BUILD_DIR/conf
-	cp $LP_DIR/conf/mime.types $BUILD_DIR/conf/mime.types
+  cp $LP_DIR/conf/mime.types $BUILD_DIR/conf/mime.types
 fi
 
 export GEM_HOME=$BUILD_DIR/.gems
@@ -62,13 +62,12 @@ if [ ! -f $BUILD_DIR/.gems/bin/jekyll ]; then
     gem install liquid -v 2.2.2 --no-rdoc --no-ri | indent
     gem install jekyll redcarpet sass --no-rdoc --no-ri | indent
     gem install therubyracer --no-rdoc --no-ri | indent
-
 fi
 
 echo "-----> Building Jekyll site"
 cd $BUILD_DIR
 $BUILD_DIR/.gems/bin/jekyll build | indent
-if [ -f sass/style.scss ] ; then
+if [ -f sass/style.scss ]; then
   $BUILD_DIR/.gems/bin/sass sass/style.scss style.css | indent
 fi
 
