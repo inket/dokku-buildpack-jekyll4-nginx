@@ -30,6 +30,18 @@ function indent() {
   esac
 }
 
+if [[ `ruby -v` == "ruby 1"* ]]; then
+  echo "-----> Installing Ruby 2.2.1"
+  git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
+  git clone https://github.com/garnieretienne/rvm-download.git ~/.rbenv/plugins/rvm-download
+  export PATH="$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
+  rbenv download 2.2.1
+  rbenv rehash
+  rbenv local 2.2.1
+else
+  echo "-----> Using `ruby -v`"
+fi
+
 # download and upack packages
 echo "-----> Fetching nginx binaries"
 curl $NGINX_PACKAGE -s -o - | tar xzf - -C $VENDORED_NGINX
