@@ -1,17 +1,27 @@
-Updates
-================================
+This is a dokku buildpack for installing Jekyll 3 with Nginx.
 
-Updated compile script to make it work as of dokku v0.3.16
+Tested with `dokku v0.4.2-45-ge471214` and `jekyll-3.0.0`
 
+### Usage
 
-Dokku buildpack: Jekyll + Nginx
-================================
+Just add a `.env` file in the root of your jekyll project containing:
 
-For your static blog!
+```
+export BUILDPACK_URL=https://github.com/inket/dokku-buildpack-jekyll3-nginx.git
+```
 
-Simply use this as the Dokku buildpack for your Jekyll repo and push to your Dokku server!
+### Other
 
-Credit where credit's due
-=========================
+For Jekyll 2.x, use [inket/dokku-buildpack-jekyll-nginx](https://github.com/inket/dokku-buildpack-jekyll-nginx)
 
-Based from []
+### Credit
+
+Fork tree:
+
+- [inket/dokku-buildpack-jekyll-nginx](https://github.com/inket/dokku-buildpack-jekyll-nginx)
+
+	- [shsteven/dokku-buildpack-jekyll-nginx](https://github.com/shsteven/dokku-buildpack-jekyll-nginx)
+
+		- [nbudin/heroku-buildpack-jekyll-nginx](https://github.com/nbudin/heroku-buildpack-jekyll-nginx)
+
+			- [mchung/heroku-buildpack-nginx](https://github.com/mchung/heroku-buildpack-nginx)
