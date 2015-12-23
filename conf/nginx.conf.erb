@@ -21,5 +21,6 @@ http {
 
     index index.html;
     root /app/_site;
+    try_files $uri $uri.html $uri/ =404;
   }
 }
