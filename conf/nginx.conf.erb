@@ -22,7 +22,10 @@ http {
     index index.html;
     root /app/_site;
 
-    rewrite \/(.*)\/$ /$1 permanent;
+    if (!-d $request_filename) {
+      rewrite \/(.*)\/$ /$1 permanent;
+    }
+    
     try_files $uri $uri.html $uri/ =404;
   }
 }
