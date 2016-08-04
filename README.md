@@ -1,6 +1,8 @@
 This is a dokku buildpack for installing Jekyll 3 with Nginx.
 
-Tested with `dokku v0.4.2-45-ge471214` and `jekyll-3.0.0`
+Tested with:
+- `dokku v0.4.2-45-ge471214` and `jekyll-3.0.0`
+- `dokku 0.7.0` and `jekyll-3.2.1`
 
 ### Usage
 
