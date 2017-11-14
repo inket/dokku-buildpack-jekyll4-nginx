@@ -25,7 +25,7 @@ http {
     if (!-d $request_filename) {
       rewrite \/(.*)\/$ /$1 permanent;
     }
-    
+
     try_files $uri $uri.html $uri/ =404;
   }
 }
