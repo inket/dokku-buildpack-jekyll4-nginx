@@ -8,7 +8,7 @@ Tested with:
 Just add a `.buildpacks` file in the root of your Jekyll project containing:
 
 ```
-https://github.com/ryandotsmith/nginx-buildpack.git
+https://github.com/heroku/heroku-buildpack-nginx.git
 https://github.com/inket/dokku-buildpack-jekyll3-nginx.git
 ```
 
