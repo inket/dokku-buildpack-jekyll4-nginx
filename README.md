@@ -1,7 +1,7 @@
 This is a dokku buildpack for installing Jekyll 3. It uses `Ruby 2.2.1` and `nginx 1.5.7`
 
 Tested with:
-- `dokku 0.10.5` and `jekyll-3.6.2` on Ubuntu 14.04.
+- `dokku 0.11.4` and `jekyll-3.6.2` on Ubuntu 14.04.
 
 ### Usage
 
