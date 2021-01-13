@@ -19,7 +19,7 @@ http {
   server {
     listen <%= ENV["PORT"] %>;
 
-    index index.html;
+    index index.html index.htm index.xml;
     root /app/_site;
 
     if (!-d $request_filename) {
