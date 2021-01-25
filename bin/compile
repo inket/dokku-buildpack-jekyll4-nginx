@@ -53,10 +53,10 @@ if [ ! -f $BUILD_DIR/.gems/bin/jekyll ]; then
     echo "Jekyll not found!"
     echo "-----> Installing Jekyll"
 
-    # Newer versions depend on ruby_dep which needs newer ruby versions
+    # Newer versions depend on newer ruby versions
     gem install listen -v "< 3.1" --no-rdoc --no-ri | indent
-
-    gem install liquid --no-rdoc --no-ri | indent
+    gem install liquid -v "< 5.0" --no-rdoc --no-ri | indent
+    
     gem install jekyll redcarpet sass --no-rdoc --no-ri | indent
     gem install therubyracer --no-rdoc --no-ri | indent
 
